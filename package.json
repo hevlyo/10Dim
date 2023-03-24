@@ -21,6 +21,6 @@
     "express": "^4.18.2",
     "nodemon": "^2.0.21",
     "socket.io": "^4.6.1",
-    "socket.io-client": "^4.6.1"
+    "tmx-parser": "^1.5.0"
   }
 }
