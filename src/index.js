@@ -55,9 +55,14 @@ async function main() {
             inputsMap[socket.id] = inputs;
         });
 
+        socket.on("mute", (isMuted) => {
+            const player = players.find((player) => player.id === socket.id);
+            player.muted = isMuted;
+        })
+        
         socket.on('disconnect', () => {
             players = players.filter(player => player.id != socket.id);
-        })
+        });
     });
 
     app.use(express.static("public"));

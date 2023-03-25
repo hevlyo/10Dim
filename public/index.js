@@ -4,6 +4,9 @@ mapImage.src = "/snowy-sheet.png";
 const santaImage = new Image();
 santaImage.src = "/santa.png";
 
+const speakerImage = new Image();
+speakerImage.src = "/speaker.png";
+
 const canvasEl = document.getElementById("canvas");
 canvasEl.width = window.innerWidth;
 canvasEl.height = window.innerHeight;
@@ -58,6 +61,7 @@ function handleUserPublished(user, mediaType) {
 
 function handleUserUnpublished(user) {
   const id = user.uid;
+  console.log('unsubs');
   delete remoteUsers[id];
 }
 
@@ -159,7 +163,15 @@ function loop() {
     }
 
       for (const player of players) {
-      canvas.drawImage(santaImage, player.x - cameraX, player.y - cameraY);
+      canvas.drawImage(santaImage, player.x - cameraX, player.y - cameraY,
+        santaImage.width * 2,
+        santaImage.height * 2);
+      if (!player.isMuted) {
+        canvas.drawImage(speakerImage,
+          player.x - cameraX + 5,
+          player.y - cameraY - 28
+      );
+      }
       }
 
     window.requestAnimationFrame(loop);
