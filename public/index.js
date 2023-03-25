@@ -11,6 +11,71 @@ const canvas = canvasEl.getContext("2d");
 
 const socket = io(`ws://localhost:5000`);
 
+const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+
+const localTracks = {
+  audioTrack: null,
+};
+
+const remoteUsers = {};
+
+let isPlaying = true;
+
+const muteButton = document.getElementById("mute");
+
+muteButton.addEventListener("click", () => {
+  if (isPlaying) {
+    localTracks.audioTrack.setEnabled(false);
+    muteButton.innerText = "unmute";
+    socket.emit("mute", true);
+  } else {
+    localTracks.audioTrack.setEnabled(true);
+    muteButton.innerText = "mute";
+    socket.emit("mute", false);
+  }
+  isPlaying = !isPlaying;
+});
+
+const options = {
+  appid: '6cb0935ce7c64a98a732ca5e8fc2336c',
+  channel: 'game',
+  uid: null,
+  token: null
+};
+
+async function subscribe(user, mediaType) {
+  await client.subscribe(user, mediaType);
+  if (mediaType === 'audio') {
+    user.audioTrack.play();
+  }
+}
+
+function handleUserPublished(user, mediaType) {
+  const id = user.uid;
+  remoteUsers[id] = user;
+  subscribe(user, mediaType);
+}
+
+function handleUserUnpublished(user) {
+  const id = user.uid;
+  delete remoteUsers[id];
+}
+
+async function join() {
+  client.on("user-published", handleUserPublished);
+  client.on("user-unpublished", handleUserUnpublished);
+
+  [ options.uid, localTracks.audioTrack] = await Promise.all([
+    client.join(options.appid, options.channel, options.token || null),
+    AgoraRTC.createMicrophoneAudioTrack(),
+  ]);
+
+  await client.publish(Object.values(localTracks));
+  console.log("publish success");
+}
+
+join();
+
 let map = [[]];
 let players = [];
 

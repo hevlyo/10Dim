@@ -6,7 +6,7 @@ const io = require("socket.io")(httpServer);
 const loadMap = require('./mapLoader');
 
 const SPEED = 5;
-const TICK_RATE = 30;
+const TICK_RATE = 60;
 
 let players = [];
 const inputsMap = {};
