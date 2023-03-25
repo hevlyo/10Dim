@@ -62,7 +62,15 @@ socket.on("players", (serverPlayers) => {
  });
 
 function loop() {
-    canvas.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.clearRect(0, 0, canvasEl.width, canvasEl.height);
+
+    const myPlayer = players.find((player) => player.id === socket.id);
+    let cameraX = 0;
+    let cameraY = 0;
+    if(myPlayer) {
+      cameraX = parseInt(myPlayer.x - canvasEl.width / 2);
+      cameraY = parseInt(myPlayer.y - canvasEl.height / 2);
+    };
 
     const TILES_IN_ROW = 8;
 
@@ -77,8 +85,8 @@ function loop() {
                 imageRow * TILE_SIZE,
                 TILE_SIZE,
                 TILE_SIZE,
-                col * TILE_SIZE,
-                row * TILE_SIZE,
+                col * TILE_SIZE - cameraX,
+                row * TILE_SIZE - cameraY,
                 TILE_SIZE,
                 TILE_SIZE
             );
@@ -86,7 +94,7 @@ function loop() {
     }
 
       for (const player of players) {
-      canvas.drawImage(santaImage, player.x, player.y);
+      canvas.drawImage(santaImage, player.x - cameraX, player.y - cameraY);
       }
 
     window.requestAnimationFrame(loop);
