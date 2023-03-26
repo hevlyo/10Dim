@@ -4,7 +4,9 @@
   "description": "Making a metaverse or a multiplayer game like habbo with voice",
   "main": "index.js",
   "scripts": {
-    "dev": "node src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
+
   },
   "repository": {
     "type": "git",
