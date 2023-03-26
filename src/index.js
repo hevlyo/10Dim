@@ -3,6 +3,8 @@ const app = express();
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer);
 
+const PORT = process.env.PORT || 5000;
+
 const loadMap = require('./mapLoader');
 
 const SPEED = 5;
@@ -45,8 +47,9 @@ async function main() {
 
         players.push({
             id: socket.id,
-            x: 0,
-            y: 0,
+            voiceId: Math.floor(Math.random() * 1000000),
+            x: 800,
+            y: 800,
         });
         
         socket.emit("map", map2D);

@@ -170,9 +170,9 @@ function loop() {
         canvas.drawImage(speakerImage,
           player.x - cameraX + 5,
           player.y - cameraY - 28
-      );
-      }
-      }
+          );
+        }
+  }
 
     window.requestAnimationFrame(loop);
 }
