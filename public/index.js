@@ -166,7 +166,7 @@ function loop() {
       canvas.drawImage(santaImage, player.x - cameraX, player.y - cameraY,
         santaImage.width * 2,
         santaImage.height * 2);
-      if (!player.isMuted) {
+      if (!player.muted) {
         canvas.drawImage(speakerImage,
           player.x - cameraX + 5,
           player.y - cameraY - 28
