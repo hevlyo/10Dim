@@ -3,7 +3,7 @@ const app = express();
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 const loadMap = require('./mapLoader');
 
@@ -70,7 +70,7 @@ async function main() {
 
     app.use(express.static("public"));
 
-    httpServer.listen(5000);
+    httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
     setInterval(tick, 1000 / TICK_RATE);
 }
