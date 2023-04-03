@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 4000;
 
 const loadMap = require('./mapLoader');
 
-const SPEED = 5;
+const SPEED = 100;
 const TICK_RATE = 60;
 
 let players = [];
